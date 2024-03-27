@@ -62,6 +62,8 @@ class Menu:
                 self.stud_menu()
             elif answ=='3':
                 exit()
+            else:
+                print("Неверный ввод")
             
     def class_menu(self):
         print('''
@@ -98,7 +100,7 @@ class Menu:
         elif answ == '2':
             self.view_grades()
         else:
-            print('Неверный ввод')    
+            print('Неверный ввод')
         
     
     def add_class(self):
@@ -108,31 +110,33 @@ class Menu:
         print(f'{class_name} класс добавлен')
         
     def add_student(self):
-        name = input('Введите имя ученика: ')
-        last_name = input('Введите фамилию ученика: ')
-        age = int(input('Введите возраст ученика: '))
-        add_class = input('Введите, в какой класс его добавить: ')
-        grades = {StudSubj.MATH: 0, StudSubj.GEOGRAPHY: 0, StudSubj.PE: 0}
-        student = Student(name=name, last_name=last_name, age=age, grades=grades)
-        for stud_class in self.class_list:
-            if stud_class.name == add_class:
-                stud_class.stud_list.append(student)
-                print(f'Ученик {name} {last_name} добавлен в класс {add_class}')
-                return
-        print(f'Класс {add_class} не найден')
+        try:
+            name = input('Введите имя ученика: ')
+            last_name = input('Введите фамилию ученика: ')
+            age = int(input('Введите возраст ученика: '))
+            add_class = input('Введите, в какой класс его добавить: ')
+            grades = {StudSubj.MATH: 0, StudSubj.GEOGRAPHY: 0, StudSubj.PE: 0}
+            student = Student(name=name, last_name=last_name, age=age, grades=grades)
+            for stud_class in self.class_list:
+                if stud_class.name == add_class:
+                    stud_class.stud_list.append(student)
+                    print(f'Ученик {name} {last_name} добавлен в класс {add_class}')
+        except:
+            print(f"Произошла ошибка")
         
     def add_teacher(self):
-        name = input('Введите имя учителя: ')
-        last_name = input('Введите фамилию учителя: ')
-        age = int(input('Введите возраст учителя: '))
-        class_ = input('Введите, каким классом будет руководить учитель: ')
-        for stud_class in self.class_list:
-            if stud_class.name == class_:
-                teacher = Teacher(name=name, last_name=last_name, age=age, class_assigned=stud_class)
-                stud_class.teacher = teacher
-                print(f'{teacher.name} {teacher.last_name} руководит {class_} классом')
-                return
-        print(f'{class_} класс не найден')
+        try:
+            name = input('Введите имя учителя: ')
+            last_name = input('Введите фамилию учителя: ')
+            age = int(input('Введите возраст учителя: '))
+            class_ = input('Введите, каким классом будет руководить учитель: ')
+            for stud_class in self.class_list:
+                if stud_class.name == class_:
+                    teacher = Teacher(name=name, last_name=last_name, age=age, class_assigned=stud_class)
+                    stud_class.teacher = teacher
+                    print(f'{teacher.name} {teacher.last_name} руководит {class_} классом')
+        except:
+            print("Произошла ошибка")
     
     def view_all_people(self):
         for class_ in self.class_list:
@@ -141,33 +145,36 @@ class Menu:
             
             for student in class_.stud_list:
                 print(f'Ученик: {student.name} {student.last_name}, возраст - {student.age}')
+                
     def add_grade(self):
-        class_ = input('Введите класс ученика: ')
-        name = input('Введите имя ученика: ')
-        last_name = input('Введите фамилию ученика: ')
-        for class__ in self.class_list:
-            if class__.name == class_:
-                for student in class__.stud_list:
-                    if student.name == name and student.last_name == last_name:
-                        subject = input('Введите предмет, по которому нужно поставить оценку (Math, GEOGRAPHY, PE): ')
-                        Mark = float(input('Введите оценку (десятичной дробью): '))
-                        student.grades[subject] = Mark
-                        print(f'Оценка {Mark} по предмету {subject} успешно добавлена для ученика {student.name} {student.last_name}')
-                        return
-        print('Произошла ошибка')
+        try:
+            class_ = input('Введите класс ученика: ')
+            name = input('Введите имя ученика: ')
+            last_name = input('Введите фамилию ученика: ')
+            for class__ in self.class_list:
+                if class__.name == class_:
+                    for student in class__.stud_list:
+                        if student.name == name and student.last_name == last_name:
+                            subject = input('Введите предмет, по которому нужно поставить оценку (Math, GEOGRAPHY, PE): ')
+                            Mark = float(input('Введите оценку (десятичной дробью): '))
+                            student.grades[subject] = Mark
+                            print(f'Оценка {Mark} по предмету {subject} успешно добавлена для ученика {student.name} {student.last_name}')
+        except:
+            print("Произошла ошибка")
         
     def view_grades(self):
-        class_ = input('Введите класс ученика: ')
-        name = input('Введите имя ученика: ')
-        last_name = input('Введите фамилию ученика: ')
-        for class__ in self.class_list:
-            if class__.name == class_:
-                for student in class__.stud_list:
-                    if student.name == name and student.last_name == last_name:
-                        for subject, grade in student.grades.items():
-                            print(f'{subject}: {grade}')
-                        return
-        print('Произошла ошибка')
+        try:
+            class_ = input('Введите класс ученика: ')
+            name = input('Введите имя ученика: ')
+            last_name = input('Введите фамилию ученика: ')
+            for class__ in self.class_list:
+                if class__.name == class_:
+                    for student in class__.stud_list:
+                        if student.name == name and student.last_name == last_name:
+                            for subject, grade in student.grades.items():
+                                print(f'{subject}: {grade}')
+        except:
+            print('Произошла ошибка')
 
 
 
